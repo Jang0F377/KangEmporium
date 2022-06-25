@@ -5,7 +5,7 @@ import MainComponent from "./components/MainComponent";
 
 function App() {
   return (
-      <div className='bg-gray-50 h-screen'>
+      <div className='h-screen '>
           <Router>
               <MainComponent/>
           </Router>
