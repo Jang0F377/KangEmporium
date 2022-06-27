@@ -3,12 +3,15 @@ import {useEffect, useState} from "react";
 import {Divider, Drawer} from "@mui/material";
 import {auth} from "../firebase";
 import {signOut} from 'firebase/auth'
+import {useSelector} from "react-redux";
+import {selectCartQuantity} from "../redux/cartSlice";
 
 
 const HeaderComponent = () => {
     const [drawer,toggleDrawer] = useState(false);
     let navigate = useNavigate();
     const [authorizedUser,setAuthorizedUser] = useState(false);
+    const cartQuantity = useSelector(selectCartQuantity);
 
     const logoutFlow = async () => {
         await signOut(auth)
@@ -16,6 +19,20 @@ const HeaderComponent = () => {
                 alert("Sign out Success!");
                 navigate('/',{replace:true})
             })
+    }
+
+    const EmptyCart = () => {
+        return(
+            <div className='flex flex-col my-auto p-3 text-center'>
+                <div className='text-3xl'>
+                    Your cart is currently empty.
+                </div>
+                <div className='text-3xl'>
+                    Start adding things to see them here!
+                </div>
+            </div>
+
+        );
     }
 
 
@@ -55,10 +72,19 @@ const HeaderComponent = () => {
             </header>
             <Drawer anchor={"left"} open={drawer}  onClose={() => toggleDrawer(false)}>
                 <div className='w-72 lg:w-96 text-2xl'>
-                    <div className='text-center text-4xl underline decoration-2 pt-1 underline-offset-8'>
-                        My Cart
+                    <div className='flex flex-row justify-around'>
+                        <div className='text-4xl underline decoration-2 pt-1 underline-offset-8'>
+                            My Cart
+                        </div>
+                        <div className='text-4xl   pt-1 '>
+                            ({cartQuantity})
+                        </div>
                     </div>
+
                     <Divider className='pt-4'/>
+                    <div className=' border'>
+                        {cartQuantity ? <div/> : <EmptyCart/>}
+                    </div>
                 </div>
             </Drawer>
         </div>
