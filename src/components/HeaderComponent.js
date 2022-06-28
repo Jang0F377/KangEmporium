@@ -3,15 +3,17 @@ import {useEffect, useState} from "react";
 import {Divider, Drawer} from "@mui/material";
 import {auth} from "../firebase";
 import {signOut} from 'firebase/auth'
-import {useSelector} from "react-redux";
-import {selectCartQuantity} from "../redux/cartSlice";
+import { useSelector} from "react-redux";
+import {selectCartItems, selectCartQuantity} from "../redux/cartSlice";
+import CartListComponent from "./CartListComponent";
 
 
 const HeaderComponent = () => {
     const [drawer,toggleDrawer] = useState(false);
-    let navigate = useNavigate();
     const [authorizedUser,setAuthorizedUser] = useState(false);
     const cartQuantity = useSelector(selectCartQuantity);
+    const cartItems = useSelector(selectCartItems);
+    let navigate = useNavigate();
 
     const logoutFlow = async () => {
         await signOut(auth)
@@ -83,7 +85,9 @@ const HeaderComponent = () => {
 
                     <Divider className='pt-4'/>
                     <div className=' border'>
-                        {cartQuantity ? <div/> : <EmptyCart/>}
+                        {cartQuantity ? cartItems.map((item) => (
+                            <CartListComponent key={item.name} item={item}/>
+                        )) : <EmptyCart/>}
                     </div>
                 </div>
             </Drawer>

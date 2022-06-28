@@ -1,35 +1,9 @@
-import {Card, CardActions, CardContent, CardMedia} from "@mui/material";
 import {Products} from "../data/Products";
-import {PlusSmIcon, ShoppingCartIcon} from "@heroicons/react/outline";
+import RenderCardComponent from "./RenderCardComponent";
+import {Link} from "react-router-dom";
 
 
 const HomeComponent = () => {
-
-
-    function RenderCard({item}) {
-        return(
-            <Card className=' m-2.5 '>
-                <CardMedia
-                    className='h-52  w-full'
-                    image={item.imageUrl}
-                    alt="Image Here"
-                />
-                <CardContent className='h-full'>
-                    <div className='text-xl mb-0.5 underline underline-offset-2 hover:text-blue-600 hover:cursor-pointer'>{item.name}</div>
-                    <div className='mt-1'>{item.description.length > 200 ? `${item.description.substring(0,200)}...` : item.description}</div>
-                    <CardActions className=' mt-2.5 -mb-2'>
-                        <div className='flex  flex-row justify-between w-full'>
-                            <div className='my-auto text-lg mb-0'>$ {item.price}</div>
-                            <div className='flex flex-row my-auto -space-x-1 rounded-full p-1 hover:bg-blue-600 hover:scale-125 hover:cursor-pointer'>
-                                <PlusSmIcon className='h-5 w-5 '/>
-                                <ShoppingCartIcon className='h-5 w-5 '/>
-                            </div>
-                        </div>
-                    </CardActions>
-                </CardContent>
-            </Card>
-        );
-    }
 
 
 
@@ -41,10 +15,11 @@ const HomeComponent = () => {
                 Welcome
             </div>
             <div className=''>
-                <div className='text-center text-4xl mb-4'>Have a look at what's on sale today:</div>
+                <div className='text-center text-4xl mb-4 mt-4'>Check out our <Link className='text-blue-600 underline' to='product'>Products</Link> page to see our complete stock!</div>
+                <div className='text-center text-4xl mb-4 mt-16'>Have a look at what's on sale today:</div>
                 <div className='grid grid-cols-3 gap-x-28 gap-y-10'>
                     {Products.filter(product => product.onSale).map((item) => (
-                        <RenderCard item={item}/>
+                        <RenderCardComponent key={item.name} item={item}/>
                     ))}
                 </div>
             </div>
