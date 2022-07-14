@@ -7,6 +7,7 @@ import RegisterScreen from "../screens/RegisterScreen";
 import DetailedProductScreen from "../screens/DetailedProductScreen";
 import ViewCartScreen from "../screens/ViewCartScreen";
 import CheckoutScreen from "../screens/CheckoutScreen";
+import LoadingScreen from "../screens/LoadingScreen";
 
 const MainComponent = () => {
 

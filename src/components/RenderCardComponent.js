@@ -1,17 +1,17 @@
 import {Card, CardActions, CardContent, CardMedia} from "@mui/material";
-import {PlusSmIcon, ShoppingCartIcon} from "@heroicons/react/outline";
+import React from "react";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {addItemToCart} from "../redux/cartSlice";
 import { useState} from "react";
-import CheckIcon from '@mui/icons-material/Check';
+import {Player} from '@lottiefiles/react-lottie-player';
 
 
 
 
 const RenderCardComponent = ({item}) => {
     const [loading,setLoading] = useState(false);
-    const [success,setSuccess] = useState(false);
+    const player = React.createRef();
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -22,8 +22,7 @@ const RenderCardComponent = ({item}) => {
 
     const handleClick = () => {
         if (!loading) {
-            setSuccess(false);
-            setLoading(true);
+            setLoading(true)
             dispatch(addItemToCart({
                 name:item.name,
                 imageUrl:item.imageUrl,
@@ -31,16 +30,8 @@ const RenderCardComponent = ({item}) => {
                 price:item.price,
                 qty:1
             }))
-            wait(1000).then(() => {
-                setSuccess(true);
-                setLoading(false);
-            }).then(() => wait(1000).then(() => {
-                setLoading(false);
-                setSuccess(false);
-            }))
-
-        } else {
-            alert("ERROR");
+            player.current.play()
+            wait(300).then(() =>  setLoading(false))
         }
 
     }
@@ -65,7 +56,7 @@ const RenderCardComponent = ({item}) => {
                 <div className='mt-1'>{item.description.length > 200 ? `${item.description.substring(0,200)}...` : item.description}</div>
                 <CardActions className=' mt-2.5 -mb-2'>
                     <div className='flex  flex-row justify-between w-full'>
-                        <div className=' text-lg mb-0'>
+                        <div className=' text-lg mb-0 my-auto'>
                             {item.onSale ?
                                 <div className='flex flex-row '>
                                     <div className='mr-1.5 text-lg mb-0 line-through'>$ {item.price}</div>
@@ -75,10 +66,9 @@ const RenderCardComponent = ({item}) => {
                                 : `$ ${item.price}`}
 
                         </div>
-                        {success ? <CheckIcon className='h-5 w-9 p-1 rounded bg-green-600'/> : <div onClick={handleClick} className='flex flex-row my-auto -space-x-1 rounded-full p-1 hover:bg-blue-600 hover:scale-125 hover:cursor-pointer'>
-                            <PlusSmIcon className='h-5 w-5 '/>
-                            <ShoppingCartIcon className='h-5 w-5 '/>
-                        </div>}
+                        <div onClick={handleClick}  className='flex flex-row my-auto -space-x-1 rounded-full p-1 hover:bg-blue-600 hover:scale-125 hover:cursor-pointer'>
+                            <Player ref={player} autoplay={false} loop={false} src={'https://assets9.lottiefiles.com/packages/lf20_4dz2pspl.json'} style={{height:'70px',width:'70px'}} />
+                        </div>
                     </div>
                 </CardActions>
             </CardContent>

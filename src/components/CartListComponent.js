@@ -1,6 +1,7 @@
 import {TrashIcon} from "@heroicons/react/outline";
 import {useDispatch} from "react-redux";
 import {removeItemFromCart} from "../redux/cartSlice";
+import {Divider} from "@mui/material";
 
 
 const CartListComponent = ({item}) => {
@@ -16,9 +17,10 @@ const CartListComponent = ({item}) => {
                 </div>
                 <img className='flex' src={item.imageUrl} alt="ERROR"/>
             </div>
-            <div className='flex flex-col my-auto'>
+            <div className='flex flex-col my-auto mr-1'>
                 <div className='text-center'>Qty:</div>
                 <div className='text-center mb-1'>{item.qty}</div>
+                <Divider orientation={"horizontal"}/>
                 <div className='flex mx-1 text-center mx-auto'>
                     ${item.price}
                 </div>
