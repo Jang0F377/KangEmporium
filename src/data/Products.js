@@ -58,7 +58,6 @@ export const Products = [
         price: 140.00,
         countInStock: 10,
         onSale:true,
-
     },
     {
         name: "Nike AirMax Shoes",

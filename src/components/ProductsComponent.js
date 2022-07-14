@@ -9,7 +9,7 @@ const ProductsComponent = () => {
         <div className=' bg-gray-200 mx-60  pt-6'>
             <div className='grid grid-cols-3 gap-x-28 gap-y-10'>
                 {Products.map((item) => (
-                    <RenderCardComponent item={item} />
+                    <RenderCardComponent key={item.name} item={item} />
                     ))}
             </div>
         </div>

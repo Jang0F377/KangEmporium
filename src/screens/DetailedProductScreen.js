@@ -11,6 +11,8 @@ const DetailedProductScreen = () => {
     const item = Products.find(item => item.name === name.name)
 
 
+
+
     const DetailedProductComponent = () => {
         return(
             <div className='flex'>
@@ -23,6 +25,9 @@ const DetailedProductScreen = () => {
                     </div>
                     <div className="text-xl p-1.5">
                         {item.description}
+                    </div>
+                    <div className='text-5xl text-right mr-4 mt-10'>
+                        $ {item.price}
                     </div>
                     <div className='flex flex-row justify-between'>
                         <div className='mt-10 text-lg'>
@@ -37,12 +42,11 @@ const DetailedProductScreen = () => {
                                     description:item.description,
                                     price:item.price,
                                     qty:1
-                                }))}} className='flex flex-row my-auto -space-x-1 rounded-full mt-10 p-1  hover:bg-blue-600 hover:scale-125 hover:cursor-pointer'>
+                                }))}} className='flex flex-row my-auto -space-x-1 rounded-full mt-10 p-1.5  hover:bg-blue-600 hover:scale-125 hover:cursor-pointer'>
                                 <PlusSmIcon className='h-16 w-16 '/>
                                 <ShoppingCartIcon className='h-16 w-16 '/>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>

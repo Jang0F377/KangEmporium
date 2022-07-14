@@ -1,17 +1,18 @@
 import {Link, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {Divider, Drawer} from "@mui/material";
+import { Divider, Drawer} from "@mui/material";
 import {auth} from "../firebase";
 import {signOut} from 'firebase/auth'
 import { useSelector} from "react-redux";
-import {selectCartItems, selectCartQuantity} from "../redux/cartSlice";
+import { selectCartItems} from "../redux/cartSlice";
 import CartListComponent from "./CartListComponent";
+import {TrashIcon} from "@heroicons/react/outline";
+
 
 
 const HeaderComponent = () => {
     const [drawer,toggleDrawer] = useState(false);
     const [authorizedUser,setAuthorizedUser] = useState(false);
-    const cartQuantity = useSelector(selectCartQuantity);
     const cartItems = useSelector(selectCartItems);
     let navigate = useNavigate();
 
@@ -33,8 +34,23 @@ const HeaderComponent = () => {
                     Start adding things to see them here!
                 </div>
             </div>
-
         );
+    };
+
+    const handleCheckoutClick = () => {
+        if (drawer) {
+            toggleDrawer(false)
+            navigate('/cart');
+        } else navigate('/cart');
+
+    }
+
+    const getCartSubtotal = () => {
+        return cartItems.reduce((price,item) => (item.price * item.qty) + price,0)
+    }
+
+    const getCartCount = () => {
+        return cartItems.reduce((qty,item) => Number(item.qty) + qty,0);
     }
 
 
@@ -76,23 +92,28 @@ const HeaderComponent = () => {
                 <div className='w-72 lg:w-96 text-2xl'>
                     <div className='flex flex-row justify-around'>
                         <div className='text-4xl underline decoration-2 pt-1 underline-offset-8'>
-                            My Cart
+                            My Cart ({getCartCount()})
                         </div>
-                        <div className='text-4xl   pt-1 '>
-                            ({cartQuantity})
+                        <div className='text-3xl pt-1 '>
+                            Total: $ {getCartSubtotal()}
                         </div>
                     </div>
-
                     <Divider className='pt-4'/>
                     <div className=' border'>
-                        {cartQuantity ? cartItems.map((item) => (
+                        {getCartCount() ? cartItems.map((item) => (
                             <CartListComponent key={item.name} item={item}/>
                         )) : <EmptyCart/>}
+                    </div>
+                    <div className='text-center '>
+                        <button
+                            onClick={handleCheckoutClick}
+                            className='p-3 rounded bg-blue-400 mt-10 justify-self-center hover:bg-blue-600 mb-8'>
+                            Go to cart
+                        </button>
                     </div>
                 </div>
             </Drawer>
         </div>
-
     );
 };
 
