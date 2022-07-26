@@ -27,3 +27,8 @@
 
 https://user-images.githubusercontent.com/51846919/180900913-6be9b5b4-c60b-4159-834c-ee523a08a7e1.mp4
 
+
+# Realized in the video I didn't show the page of the product itself so here is a screenshot:
+![Screenshot from 2022-07-25 18-58-33](https://user-images.githubusercontent.com/51846919/180906057-fa57a645-cfe7-415f-97f1-e0ba978bb725.png)
+
+
