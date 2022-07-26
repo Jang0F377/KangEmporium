@@ -22,7 +22,7 @@
 # Still to do 
  * Implement Backend to serve products from (waiting on product list with descriptions and price and such from friend).
  * Improve UI/UX.
- * Create a Stripe Payment Server.
+ * Create a Stripe Payment Server to implement CheckOut Screen.
 
 
 https://user-images.githubusercontent.com/51846919/180900913-6be9b5b4-c60b-4159-834c-ee523a08a7e1.mp4
