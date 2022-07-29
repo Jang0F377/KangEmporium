@@ -21,17 +21,6 @@ export const cartSlice = createSlice({
     },
     removeItemFromCart: (state, action) => {
       const item = action.payload;
-      state.cartItems = state.cartItems.filter((x) => x.name !== item.name);
-    },
-    strictIncreaseQty: (state, action) => {
-      const item = action.payload;
-      const isInCart = state.cartItems.find((x) => x.name === item.name);
-      if (isInCart) {
-        isInCart.qty = isInCart.qty + 1;
-      }
-    },
-    strictDecreaseQty: (state, action) => {
-      const item = action.payload;
       const moreThanOne = item.qty > 1;
       if (moreThanOne) {
         const minusToQty = state.cartItems.find((x) => x.name === item.name);
@@ -40,15 +29,18 @@ export const cartSlice = createSlice({
         state.cartItems = state.cartItems.filter((x) => x.name !== item.name);
       }
     },
+    strictIncreaseQty: (state, action) => {
+      const item = action.payload;
+      const isInCart = state.cartItems.find((x) => x.name === item.name);
+      if (isInCart) {
+        isInCart.qty = isInCart.qty + 1;
+      }
+    },
   },
 });
 
-export const {
-  addItemToCart,
-  removeItemFromCart,
-  strictIncreaseQty,
-  strictDecreaseQty,
-} = cartSlice.actions;
+export const { addItemToCart, removeItemFromCart, strictIncreaseQty } =
+  cartSlice.actions;
 
 export const selectCartItems = (state) => state.cart.cartItems;
 export const selectCartQuantity = (state) => state.cart.cartItems.length;

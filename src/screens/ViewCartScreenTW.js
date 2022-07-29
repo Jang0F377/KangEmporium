@@ -9,14 +9,13 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   removeItemFromCart,
   selectCartItems,
-  strictDecreaseQty,
   strictIncreaseQty,
 } from "../redux/cartSlice";
 import { useEffect, useState } from "react";
 
 const ViewCartScreenTW = () => {
-  const navigate = useNavigate();
   const cartItems = useSelector(selectCartItems);
+  const navigate = useNavigate();
 
   const anythingInCart = cartItems.length;
 
@@ -44,7 +43,13 @@ const ViewCartScreenTW = () => {
           </h2>
           <ul className="border-t border-b border-gray-200 divide-y divide-gray-200 ">
             {anythingInCart ? (
-              cartItems.map((item) => <CartScreenListComp product={item} />)
+              cartItems.map((item) => (
+                <CartScreenListComp
+                  key={item.name}
+                  product={item}
+                  navigate={navigate}
+                />
+              ))
             ) : (
               <EmptyCart />
             )}
@@ -54,7 +59,10 @@ const ViewCartScreenTW = () => {
           aria-labelledby="summary-heading"
           className="mt-16 bg-gray-50 rounded-lg px-4 py-6 sm:p-6 lg:p-8 lg:mt-0 lg:col-span-5"
         >
-          <CartScreenOrderSummary getCartSubtotal={getCartSubtotal()} />
+          <CartScreenOrderSummary
+            getCartSubtotal={getCartSubtotal()}
+            navigate={navigate}
+          />
         </section>
       </form>
     </div>
@@ -62,13 +70,7 @@ const ViewCartScreenTW = () => {
 };
 
 const CartScreenOrderSummary = (props) => {
-  const [tax, setTax] = useState(0);
   const [subtotal, setSubtotal] = useState(0);
-
-  useEffect(() => {
-    setTax(Number((props.getCartSubtotal * 0.085).toFixed(2)));
-    setSubtotal(Number((props.getCartSubtotal + tax).toFixed(2)));
-  }, [props.getCartSubtotal, tax]);
 
   return (
     <div className="">
@@ -105,7 +107,9 @@ const CartScreenOrderSummary = (props) => {
               <QuestionMarkCircleIcon className="h-5 w-5" aria-hidden="true" />
             </div>
           </dt>
-          <dd className="text-sm font-medium text-gray-900">$ {tax}</dd>
+          <dd className="text-sm font-medium text-gray-900">
+            $ {Number(props.getCartSubtotal * 0.085).toFixed(2)}
+          </dd>
         </div>
         <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
           <dt className="text-base font-medium text-gray-900">Order total</dt>
@@ -115,7 +119,8 @@ const CartScreenOrderSummary = (props) => {
 
       <div className="mt-6">
         <button
-          type="submit"
+          type={"submit"}
+          onClick={() => props.navigate("/checkout")}
           className="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
         >
           Checkout
@@ -125,14 +130,13 @@ const CartScreenOrderSummary = (props) => {
   );
 };
 
-const CartScreenListComp = ({ product }) => {
-  const navigate = useNavigate();
+const CartScreenListComp = (props) => {
   const dispatch = useDispatch();
   return (
-    <li key={product.name} className="flex py-6 sm:py-10">
+    <li key={props.product.name} className="flex py-6 sm:py-10">
       <div className="flex-shrink-0">
         <img
-          src={product.imageUrl}
+          src={props.product.imageUrl}
           alt={"ERR"}
           className="w-24 h-24 rounded-md object-center object-cover sm:w-48 sm:h-48"
         />
@@ -146,37 +150,40 @@ const CartScreenListComp = ({ product }) => {
                 <div
                   className="font-medium text-gray-700 hover:text-gray-800 hover:cursor-pointer"
                   onClick={() =>
-                    navigate(`/product/${product.name}`, {
+                    props.navigate(`/product/${props.product.name}`, {
                       replace: false,
-                      state: product,
+                      state: props.product,
                     })
                   }
                 >
-                  {product.name}
+                  {props.product.name}
                 </div>
               </h3>
             </div>
             <div className="mt-1 flex text-sm md:text-base">
-              {product.color ? (
-                <p className="text-gray-500">{product.color}</p>
+              {props.product.color ? (
+                <p className="text-gray-500">{props.product.color}</p>
               ) : null}
-              {product.size ? (
+              {props.product.size ? (
                 <p className="ml-4 pl-4 border-l border-gray-200 text-gray-500">
-                  {product.size}
+                  {props.product.size.name}
                 </p>
               ) : null}
             </div>
             <p className="mt-1 text-sm md:text-base font-medium text-gray-900">
-              $ {product.price}
+              $ {props.product.price}
             </p>
           </div>
 
           <div className="mt-4 sm:mt-0 sm:pr-9">
-            <label htmlFor={`quantity-${product.name}`} className="sr-only">
-              Quantity, {product.name}
+            <label
+              htmlFor={`quantity-${props.product.name}`}
+              className="sr-only"
+            >
+              Quantity, {props.product.name}
             </label>
             <div className="w-fit p-1.5 md:text-base font-medium text-gray-700 text-left text-sm">
-              {product.qty}
+              {props.product.qty}
             </div>
             <div className="absolute right-0 top-0">
               <button
@@ -185,8 +192,8 @@ const CartScreenListComp = ({ product }) => {
                 onClick={() => {
                   dispatch(
                     removeItemFromCart({
-                      name: product.name,
-                      qty: product.qty,
+                      name: props.product.name,
+                      qty: props.product.qty,
                     })
                   );
                 }}
@@ -199,7 +206,7 @@ const CartScreenListComp = ({ product }) => {
         </div>
         <div className="flex flex-row relative">
           <p className="mt-4 flex text-sm text-gray-700 space-x-2">
-            {product.countInStock ? (
+            {props.product.countInStock ? (
               <CheckIcon
                 className="flex-shrink-0 h-5 w-5 text-green-500"
                 aria-hidden="true"
@@ -212,7 +219,7 @@ const CartScreenListComp = ({ product }) => {
             )}
 
             <span>
-              {product.countInStock ? "In stock" : `Ships in 3-4 weeks`}
+              {props.product.countInStock ? "In stock" : `Ships in 3-4 weeks`}
             </span>
           </p>
           <div className="flex flex-col absolute bottom-0 right-1 gap-y-3">
@@ -222,8 +229,8 @@ const CartScreenListComp = ({ product }) => {
               onClick={() => {
                 dispatch(
                   strictIncreaseQty({
-                    name: product.name,
-                    qty: product.qty,
+                    name: props.product.name,
+                    qty: props.product.qty,
                   })
                 );
               }}
@@ -235,7 +242,10 @@ const CartScreenListComp = ({ product }) => {
               className="text-sm font-medium px-1 text-indigo-500 hover:text-indigo-800 "
               onClick={() => {
                 dispatch(
-                  strictDecreaseQty({ name: product.name, qty: product.qty })
+                  removeItemFromCart({
+                    name: props.product.name,
+                    qty: props.product.qty,
+                  })
                 );
               }}
             >

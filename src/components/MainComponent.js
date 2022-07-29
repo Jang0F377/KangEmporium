@@ -5,7 +5,6 @@ import ProductsComponent from "./ProductsComponent";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import DetailedProductScreen from "../screens/DetailedProductScreen";
-import ViewCartScreen from "../screens/ViewCartScreen";
 import CheckoutScreen from "../screens/CheckoutScreen";
 import ViewCartScreenTW from "../screens/ViewCartScreenTW";
 
