@@ -3,13 +3,21 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 import { useSelector } from "react-redux";
 import { selectCartItems } from "../redux/cartSlice";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutScreen = () => {
   const cartItems = useSelector(selectCartItems);
-  const discount = { code: "CHEAPSKATE", amount: 16 };
+  const discount = { code: "CHEAPSKATE", amount: 16.0 };
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardExp, setCardExp] = useState("");
+  const [address, setAddress] = useState("");
+
   const [tax, setTax] = useState(0);
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setTax(
@@ -18,9 +26,11 @@ const CheckoutScreen = () => {
         .toFixed(2)
     );
     setSubtotal(
-      cartItems.reduce((price, item) => item.price * item.qty + price, 0)
+      cartItems
+        .reduce((price, item) => item.price * item.qty + price, 0)
+        .toFixed(2)
     );
-    setTotal(subtotal + Number(tax));
+    setTotal(Number(subtotal) + Number(tax));
   }, [cartItems, subtotal, tax]);
 
   return (
@@ -121,7 +131,7 @@ const CheckoutScreen = () => {
                   <dl className="text-sm font-medium text-gray-500 mt-10 space-y-6">
                     <div className="flex justify-between">
                       <dt>Subtotal</dt>
-                      <dd className="text-gray-900">{subtotal}</dd>
+                      <dd className="text-gray-900">$ {subtotal}</dd>
                     </div>
                     <div className="flex justify-between">
                       <dt className="flex">
@@ -130,11 +140,11 @@ const CheckoutScreen = () => {
                           {discount.code}
                         </span>
                       </dt>
-                      <dd className="text-gray-900">-{discount.amount}</dd>
+                      <dd className="text-gray-900">- ${discount.amount}</dd>
                     </div>
                     <div className="flex justify-between">
                       <dt>Taxes</dt>
-                      <dd className="text-gray-900">{tax}</dd>
+                      <dd className="text-gray-900">${tax}</dd>
                     </div>
                     <div className="flex justify-between">
                       <dt>Shipping</dt>
@@ -145,7 +155,7 @@ const CheckoutScreen = () => {
 
                 <p className="flex items-center justify-between text-sm font-medium text-gray-900 border-t border-gray-200 pt-6 mt-6">
                   <span className="text-base">Total</span>
-                  <span className="text-base">{total}</span>
+                  <span className="text-base">$ {total}</span>
                 </p>
               </>
             )}
@@ -154,15 +164,15 @@ const CheckoutScreen = () => {
         {/* Order summary */}
         <section
           aria-labelledby="summary-heading"
-          className="hidden bg-gray-50 w-full max-w-md flex-col lg:flex"
+          className="hidden bg-gray-50 w-full max-w-md flex-col lg:flex rounded"
         >
           <h2 id="summary-heading" className="sr-only">
             Order summary
           </h2>
 
-          <ul className="flex-auto overflow-y-auto divide-y divide-gray-200 px-6">
+          <ul className="flex-auto overflow-y-auto divide-y divide-gray-200  px-6">
             {cartItems.map((product) => (
-              <li key={product.id} className="flex py-6 space-x-6">
+              <li key={product.name} className="flex py-6 space-x-6">
                 <img
                   src={product.imageUrl}
                   alt={"ERR"}
@@ -228,7 +238,7 @@ const CheckoutScreen = () => {
             <dl className="text-sm font-medium text-gray-500 mt-10 space-y-6">
               <div className="flex justify-between">
                 <dt>Subtotal</dt>
-                <dd className="text-gray-900">{subtotal}</dd>
+                <dd className="text-gray-900">$ {subtotal}</dd>
               </div>
               <div className="flex justify-between">
                 <dt className="flex">
@@ -237,11 +247,11 @@ const CheckoutScreen = () => {
                     {discount.code}
                   </span>
                 </dt>
-                <dd className="text-gray-900">-{discount.amount}</dd>
+                <dd className="text-gray-900">- ${discount.amount}</dd>
               </div>
               <div className="flex justify-between">
                 <dt>Taxes</dt>
-                <dd className="text-gray-900">{tax}</dd>
+                <dd className="text-gray-900">$ {tax}</dd>
               </div>
               <div className="flex justify-between">
                 <dt>Shipping</dt>
@@ -249,7 +259,7 @@ const CheckoutScreen = () => {
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 text-gray-900 pt-6">
                 <dt>Total</dt>
-                <dd className="text-base">{total}</dd>
+                <dd className="text-base">$ {total}</dd>
               </div>
             </dl>
           </div>
@@ -306,6 +316,8 @@ const CheckoutScreen = () => {
                   </label>
                   <div className="mt-1">
                     <input
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       type="email"
                       id="email-address"
                       name="email-address"
@@ -324,6 +336,8 @@ const CheckoutScreen = () => {
                   </label>
                   <div className="mt-1">
                     <input
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                       type="text"
                       id="name-on-card"
                       name="name-on-card"
@@ -342,7 +356,10 @@ const CheckoutScreen = () => {
                   </label>
                   <div className="mt-1">
                     <input
-                      type="text"
+                      value={cardNumber}
+                      onChange={(e) => setCardNumber(e.target.value)}
+                      type="number"
+                      maxLength={16}
                       id="card-number"
                       name="card-number"
                       autoComplete="cc-number"
@@ -360,6 +377,9 @@ const CheckoutScreen = () => {
                   </label>
                   <div className="mt-1">
                     <input
+                      maxLength={5}
+                      value={cardExp}
+                      onChange={(e) => setCardExp(e.target.value)}
                       type="text"
                       name="expiration-date"
                       id="expiration-date"
@@ -378,7 +398,8 @@ const CheckoutScreen = () => {
                   </label>
                   <div className="mt-1">
                     <input
-                      type="text"
+                      maxLength={4}
+                      type="number"
                       name="cvc"
                       id="cvc"
                       autoComplete="csc"
@@ -396,6 +417,8 @@ const CheckoutScreen = () => {
                   </label>
                   <div className="mt-1">
                     <input
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
                       type="text"
                       id="address"
                       name="address"
@@ -479,10 +502,26 @@ const CheckoutScreen = () => {
               </div>
 
               <button
-                type="submit"
+                onClick={() => {
+                  navigate("/summary", {
+                    replace: true,
+                    state: {
+                      email: email,
+                      name: name,
+                      cardNumber: cardNumber,
+                      cardExp: cardExp,
+                      address: address,
+                      products: cartItems,
+                      subtotal: subtotal,
+                      tax: tax,
+                      total: total,
+                    },
+                  });
+                }}
+                type="button"
                 className="w-full mt-6 bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                Pay $ {subtotal}
+                Pay $ {total}
               </button>
 
               <p className="flex justify-center text-sm font-medium text-gray-500 mt-6">

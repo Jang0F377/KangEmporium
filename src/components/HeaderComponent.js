@@ -61,7 +61,7 @@ const HeaderComponent = () => {
 
   return (
     <div>
-      <header className="flex flex-col bg-color-primary mx-72  rounded-b-md">
+      <header className="flex flex-col bg-color-primary mx-72  rounded-b">
         <div className="flex flex-row justify-end pr-1 font-inter">
           <div
             hidden={authorizedUser}

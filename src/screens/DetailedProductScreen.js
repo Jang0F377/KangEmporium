@@ -1,6 +1,6 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-import { Products } from "../data/Products";
+import { useLocation } from "react-router-dom";
+
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "../redux/cartSlice";
 import { Transition } from "@headlessui/react";
@@ -11,11 +11,13 @@ import { CheckIcon, StarIcon, XIcon } from "@heroicons/react/solid";
 import { CheckCircleIcon } from "@heroicons/react/outline";
 
 const DetailedProductScreen = () => {
+  const { state } = useLocation();
+  const { item } = state;
+
   const reviews = { average: 4, totalCount: 1624 };
   const dispatch = useDispatch();
-  const name = useParams();
-  const product = Products.find((item) => item.name === name.name);
-  const [selectedSize, setSelectedSize] = useState(product.size[0]);
+
+  const [selectedSize, setSelectedSize] = useState(item.size[0]);
   const [show, setShow] = useState(false);
 
   const wait = (timeout) => {
@@ -25,14 +27,14 @@ const DetailedProductScreen = () => {
   const handleClick = () => {
     dispatch(
       addItemToCart({
-        name: product.name,
-        imageUrl: product.imageUrl,
-        description: product.description,
-        price: product.price,
+        name: item.name,
+        imageUrl: item.imageUrl,
+        description: item.description,
+        price: item.price,
         qty: 1,
-        countInStock: product.countInStock,
+        countInStock: item.countInStock,
         size: selectedSize,
-        color: product.color,
+        color: item.color,
       })
     );
     setShow(true);
@@ -44,13 +46,13 @@ const DetailedProductScreen = () => {
 
   return (
     <div className="flex flex-col bg-gray-200 font-inter mx-60  pt-6">
-      {product ? (
+      {item ? (
         <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:gap-x-8">
-          {/* Product details */}
+          {/* item details */}
           <div className="lg:max-w-lg lg:self-end">
             <div className="mt-4">
               <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
-                {product.name}
+                {item.name}
               </h1>
             </div>
 
@@ -61,7 +63,7 @@ const DetailedProductScreen = () => {
 
               <div className="flex items-center">
                 <p className="text-lg text-gray-900 sm:text-xl">
-                  $ {product.price}
+                  $ {item.price}
                 </p>
 
                 <div className="ml-4 pl-4 border-l border-gray-300">
@@ -94,7 +96,7 @@ const DetailedProductScreen = () => {
               </div>
 
               <div className="mt-4 space-y-6">
-                <p className="text-base text-gray-500">{product.description}</p>
+                <p className="text-base text-gray-500">{item.description}</p>
               </div>
 
               <div className="mt-6 flex items-center">
@@ -109,18 +111,18 @@ const DetailedProductScreen = () => {
             </section>
           </div>
 
-          {/* Product image */}
+          {/* item image */}
           <div className="mt-10 lg:mt-0 lg:col-start-2 lg:row-span-2 lg:self-center">
             <div className="aspect-w-1 aspect-h-1 rounded-lg overflow-hidden">
               <img
-                src={product.imageUrl}
+                src={item.imageUrl}
                 alt={"ERR"}
                 className="w-full h-full object-center object-cover"
               />
             </div>
           </div>
 
-          {/* Product form */}
+          {/* item form */}
           <div className="mt-10 lg:max-w-lg lg:col-start-1 lg:row-start-2 lg:self-start">
             <section aria-labelledby="options-heading">
               <h2 id="options-heading" className="sr-only">
@@ -130,13 +132,13 @@ const DetailedProductScreen = () => {
               <form>
                 <div className="sm:flex sm:justify-between">
                   {/* Size selector */}
-                  {product.size ? (
+                  {item.size ? (
                     <RadioGroup value={selectedSize} onChange={setSelectedSize}>
                       <RadioGroup.Label className="block text-sm font-medium text-gray-700">
                         Size
                       </RadioGroup.Label>
                       <div className="mt-1 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        {product.size.map((s) => (
+                        {item.size.map((s) => (
                           <RadioGroup.Option
                             as="div"
                             key={s.name}

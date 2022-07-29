@@ -13,15 +13,15 @@ import {
 } from "../redux/cartSlice";
 import { useEffect, useState } from "react";
 
-const ViewCartScreenTW = () => {
+const ShoppingCartScreen = () => {
   const cartItems = useSelector(selectCartItems);
   const navigate = useNavigate();
 
   const anythingInCart = cartItems.length;
 
-  const getCartSubtotal = () => {
-    return cartItems.reduce((price, item) => item.price * item.qty + price, 0);
-  };
+  // const getCartSubtotal = () => {
+  //   return cartItems.reduce((price, item) => item.price * item.qty + price, 0);
+  // };
   const EmptyCart = () => {
     return (
       <div className="flex flex-col font-inter my-auto p-3 text-center">
@@ -59,10 +59,7 @@ const ViewCartScreenTW = () => {
           aria-labelledby="summary-heading"
           className="mt-16 bg-gray-50 rounded-lg px-4 py-6 sm:p-6 lg:p-8 lg:mt-0 lg:col-span-5"
         >
-          <CartScreenOrderSummary
-            getCartSubtotal={getCartSubtotal()}
-            navigate={navigate}
-          />
+          <CartScreenOrderSummary navigate={navigate} cartItems={cartItems} />
         </section>
       </form>
     </div>
@@ -70,7 +67,23 @@ const ViewCartScreenTW = () => {
 };
 
 const CartScreenOrderSummary = (props) => {
+  const [tax, setTax] = useState(0);
   const [subtotal, setSubtotal] = useState(0);
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    setTax(
+      props.cartItems
+        .reduce((price, item) => (item.price * item.qty + price) * 0.085, 0)
+        .toFixed(2)
+    );
+    setSubtotal(
+      props.cartItems
+        .reduce((price, item) => item.price * item.qty + price, 0)
+        .toFixed(2)
+    );
+    setTotal(Number(subtotal) + Number(tax));
+  }, [props.cartItems, subtotal, tax]);
 
   return (
     <div className="">
@@ -81,9 +94,7 @@ const CartScreenOrderSummary = (props) => {
       <dl className="mt-6 space-y-4">
         <div className="flex items-center justify-between">
           <dt className="text-sm text-gray-600">Subtotal</dt>
-          <dd className="text-sm font-medium text-gray-900">
-            $ {props.getCartSubtotal}
-          </dd>
+          <dd className="text-sm font-medium text-gray-900">$ {subtotal}</dd>
         </div>
         <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
           <dt className="flex items-center text-sm text-gray-600">
@@ -107,13 +118,11 @@ const CartScreenOrderSummary = (props) => {
               <QuestionMarkCircleIcon className="h-5 w-5" aria-hidden="true" />
             </div>
           </dt>
-          <dd className="text-sm font-medium text-gray-900">
-            $ {Number(props.getCartSubtotal * 0.085).toFixed(2)}
-          </dd>
+          <dd className="text-sm font-medium text-gray-900">$ {tax}</dd>
         </div>
         <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
           <dt className="text-base font-medium text-gray-900">Order total</dt>
-          <dd className="text-base font-medium text-gray-900">$ {subtotal}</dd>
+          <dd className="text-base font-medium text-gray-900">$ {total}</dd>
         </div>
       </dl>
 
@@ -258,4 +267,4 @@ const CartScreenListComp = (props) => {
   );
 };
 
-export default ViewCartScreenTW;
+export default ShoppingCartScreen;
