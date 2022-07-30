@@ -53,7 +53,7 @@ export const Products = [
       "https://images.unsplash.com/photo-1558756520-22cfe5d382ca?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
     description:
       "Outfitted with 45mm large-aperture dynamic drivers and an over-ear, closed-back design, the ATH-M50x headphones deliver clarity, deep bass, and extended bandwidth (15 Hz to 28 kHz) while isolating you from outside sounds.",
-    price: 233,
+    price: 244,
     countInStock: 4,
     onSale: false,
     color: "",
@@ -65,7 +65,7 @@ export const Products = [
       "https://images.unsplash.com/photo-1564424224827-cd24b8915874?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1489&q=80",
     description:
       "JBL Flip 4 is the next generation in the award-winning Flip series; it is a portable Bluetooth speaker that delivers surprisingly powerful stereo sound. This compact speaker is powered by a 3000mAh rechargeable Li-ion battery that offers up to 12 hours of continuous, high-quality audio playtime.",
-    price: 140.0,
+    price: 140,
     countInStock: 10,
     onSale: true,
     color: "",
@@ -86,7 +86,7 @@ export const Products = [
     name: "Gucci Bamboo Perfume",
     imageUrl:
       "https://images.unsplash.com/photo-1651346753690-8a9215338c25?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-    price: "99",
+    price: 99,
     description:
       "New Gucci Bamboo Perfume. Rich Earthy Fragrance with notes of Lavender.",
     countInStock: 10,
@@ -95,10 +95,10 @@ export const Products = [
     size: "",
   },
   {
-    name: "Apple Watch Series 7 w/ Cellular",
+    name: "Apple Watch Series 7 Cellular",
     imageUrl:
       "https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1964&q=80",
-    price: "350",
+    price: 350,
     description:
       "The newest release in Apple's line of watches. Includes longer battery life and cellular connectivity.",
     countInStock: 4,

@@ -1,23 +1,33 @@
 import { Disclosure } from "@headlessui/react";
 import { LockClosedIcon } from "@heroicons/react/solid";
-import { useSelector } from "react-redux";
-import { selectCartItems } from "../redux/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  removeItemFromCart,
+  selectCartItems,
+  strictIncreaseQty,
+} from "../redux/cartSlice";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const CheckoutScreen = () => {
   const cartItems = useSelector(selectCartItems);
-  const discount = { code: "CHEAPSKATE", amount: 16.0 };
+  const [giveDiscount, setGiveDiscount] = useState(false);
+  const couponCode = { code: "CHEAPSKATE", amount: 16 };
+  const [discount, setDiscount] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [cardExp, setCardExp] = useState("");
   const [address, setAddress] = useState("");
-
   const [tax, setTax] = useState(0);
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleDiscountCode = () => {
+    if (discount === couponCode.code) setGiveDiscount(true);
+  };
 
   useEffect(() => {
     setTax(
@@ -114,13 +124,16 @@ const CheckoutScreen = () => {
                     </label>
                     <div className="flex space-x-4 mt-1">
                       <input
+                        value={discount}
+                        onChange={(e) => setDiscount(e.target.value)}
                         type="text"
                         id="discount-code-mobile"
                         name="discount-code-mobile"
                         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       />
                       <button
-                        type="submit"
+                        onClick={handleDiscountCode}
+                        type="button"
                         className="bg-gray-200 text-sm font-medium text-gray-600 rounded-md px-4 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
                       >
                         Apply
@@ -133,15 +146,19 @@ const CheckoutScreen = () => {
                       <dt>Subtotal</dt>
                       <dd className="text-gray-900">$ {subtotal}</dd>
                     </div>
-                    <div className="flex justify-between">
-                      <dt className="flex">
-                        Discount
-                        <span className="ml-2 rounded-full bg-gray-200 text-xs text-gray-600 py-0.5 px-2 tracking-wide">
-                          {discount.code}
-                        </span>
-                      </dt>
-                      <dd className="text-gray-900">- ${discount.amount}</dd>
-                    </div>
+                    {giveDiscount ? (
+                      <div className="flex justify-between">
+                        <dt className="flex">
+                          Discount
+                          <span className="ml-2 rounded-full bg-gray-200 text-xs text-gray-600 py-0.5 px-2 tracking-wide">
+                            {couponCode.code}
+                          </span>
+                        </dt>
+                        <dd className="text-gray-900">
+                          - ${couponCode.amount}
+                        </dd>
+                      </div>
+                    ) : null}
                     <div className="flex justify-between">
                       <dt>Taxes</dt>
                       <dd className="text-gray-900">${tax}</dd>
@@ -155,7 +172,9 @@ const CheckoutScreen = () => {
 
                 <p className="flex items-center justify-between text-sm font-medium text-gray-900 border-t border-gray-200 pt-6 mt-6">
                   <span className="text-base">Total</span>
-                  <span className="text-base">$ {total}</span>
+                  <span className="text-base">
+                    $ {giveDiscount ? total - couponCode.amount : total}
+                  </span>
                 </p>
               </>
             )}
@@ -181,7 +200,7 @@ const CheckoutScreen = () => {
                 <div className="flex flex-col justify-between space-y-4">
                   <div className="text-sm font-medium space-y-1">
                     <h3 className="text-gray-900">{product.name}</h3>
-                    <p className="text-gray-900">$ {product.price}</p>
+                    <p className="text-gray-900">${product.price}</p>
                     {product.color ? (
                       <p className="text-gray-500">{product.color}</p>
                     ) : null}
@@ -192,6 +211,14 @@ const CheckoutScreen = () => {
                   </div>
                   <div className="flex space-x-4">
                     <button
+                      onClick={() => {
+                        dispatch(
+                          strictIncreaseQty({
+                            name: product.name,
+                            qty: product.qty,
+                          })
+                        );
+                      }}
                       type="button"
                       className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
                     >
@@ -199,6 +226,14 @@ const CheckoutScreen = () => {
                     </button>
                     <div className="flex border-l border-gray-300 pl-4">
                       <button
+                        onClick={() => {
+                          dispatch(
+                            removeItemFromCart({
+                              name: product.name,
+                              qty: product.qty,
+                            })
+                          );
+                        }}
                         type="button"
                         className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
                       >
@@ -221,13 +256,16 @@ const CheckoutScreen = () => {
               </label>
               <div className="flex space-x-4 mt-1">
                 <input
+                  value={discount}
+                  onChange={(e) => setDiscount(e.target.value)}
                   type="text"
                   id="discount-code"
                   name="discount-code"
                   className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
                 <button
-                  type="submit"
+                  onClick={handleDiscountCode}
+                  type="button"
                   className="bg-gray-200 text-sm font-medium text-gray-600 rounded-md px-4 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
                 >
                   Apply
@@ -240,15 +278,17 @@ const CheckoutScreen = () => {
                 <dt>Subtotal</dt>
                 <dd className="text-gray-900">$ {subtotal}</dd>
               </div>
-              <div className="flex justify-between">
-                <dt className="flex">
-                  Discount
-                  <span className="ml-2 rounded-full bg-gray-200 text-xs text-gray-600 py-0.5 px-2 tracking-wide">
-                    {discount.code}
-                  </span>
-                </dt>
-                <dd className="text-gray-900">- ${discount.amount}</dd>
-              </div>
+              {giveDiscount ? (
+                <div className="flex justify-between">
+                  <dt className="flex">
+                    Discount
+                    <span className="ml-2 rounded-full bg-gray-200 text-xs text-gray-600 py-0.5 px-2 tracking-wide">
+                      {couponCode.code}
+                    </span>
+                  </dt>
+                  <dd className="text-gray-900">- ${couponCode.amount}</dd>
+                </div>
+              ) : null}
               <div className="flex justify-between">
                 <dt>Taxes</dt>
                 <dd className="text-gray-900">$ {tax}</dd>
@@ -259,7 +299,9 @@ const CheckoutScreen = () => {
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 text-gray-900 pt-6">
                 <dt>Total</dt>
-                <dd className="text-base">$ {total}</dd>
+                <dd className="text-base">
+                  $ {giveDiscount ? total - couponCode.amount : total}
+                </dd>
               </div>
             </dl>
           </div>
@@ -521,7 +563,7 @@ const CheckoutScreen = () => {
                 type="button"
                 className="w-full mt-6 bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                Pay $ {total}
+                Pay $ {giveDiscount ? total - couponCode.amount : total}
               </button>
 
               <p className="flex justify-center text-sm font-medium text-gray-500 mt-6">
