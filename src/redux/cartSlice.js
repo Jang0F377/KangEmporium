@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   cartItems: [],
-  cartTotalPrice: 0,
 };
 
 export const cartSlice = createSlice({
@@ -21,17 +20,6 @@ export const cartSlice = createSlice({
     },
     removeItemFromCart: (state, action) => {
       const item = action.payload;
-      state.cartItems = state.cartItems.filter((x) => x.name !== item.name);
-    },
-    strictIncreaseQty: (state, action) => {
-      const item = action.payload;
-      const isInCart = state.cartItems.find((x) => x.name === item.name);
-      if (isInCart) {
-        isInCart.qty = isInCart.qty + 1;
-      }
-    },
-    strictDecreaseQty: (state, action) => {
-      const item = action.payload;
       const moreThanOne = item.qty > 1;
       if (moreThanOne) {
         const minusToQty = state.cartItems.find((x) => x.name === item.name);
@@ -40,6 +28,16 @@ export const cartSlice = createSlice({
         state.cartItems = state.cartItems.filter((x) => x.name !== item.name);
       }
     },
+    strictIncreaseQty: (state, action) => {
+      const item = action.payload;
+      const isInCart = state.cartItems.find((x) => x.name === item.name);
+      if (isInCart) {
+        isInCart.qty = isInCart.qty + 1;
+      }
+    },
+    resetState: (state, action) => {
+      return initialState;
+    },
   },
 });
 
@@ -47,11 +45,9 @@ export const {
   addItemToCart,
   removeItemFromCart,
   strictIncreaseQty,
-  strictDecreaseQty,
+  resetState,
 } = cartSlice.actions;
 
 export const selectCartItems = (state) => state.cart.cartItems;
-export const selectCartQuantity = (state) => state.cart.cartItems.length;
-export const selectCartTotal = (state) => state.cart.cartTotalPrice;
 
 export default cartSlice.reducer;

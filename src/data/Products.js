@@ -121,12 +121,34 @@ export const Products = [
   {
     name: "Basic Tee",
     imageUrl:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-01.jpg",
+      "https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg",
     description: "Guy's Basic Tee Shirt in Sienna",
     onSale: false,
     price: 32,
     countInStock: 0,
     color: "Sienna",
-    size: "Large",
+    size: [{ name: "XS" }, { name: "S" }, { name: "M" }, { name: "LG" }],
+  },
+  {
+    name: "Everyday Ruck Sack",
+    imageUrl:
+      "https://tailwindui.com/img/ecommerce-images/product-page-04-featured-product-shot.jpg",
+    description:
+      "Don't compromise on snack-carrying capacity with this lightweight and spacious bag. The drawstring top keeps all your favorite" +
+      "chips, crisps, fries, cookies, biscuits, and crackers secure.",
+    onSale: false,
+    price: 220,
+    countInStock: 22,
+    color: "Light Green",
+    size: [
+      {
+        name: "18L",
+        description: "Perfect for a reasonable amount of snacks.",
+      },
+      {
+        name: "20L",
+        description: "Enough room for a serious amount of snacks.",
+      },
+    ],
   },
 ];

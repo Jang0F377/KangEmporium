@@ -5,9 +5,9 @@ import ProductsComponent from "./ProductsComponent";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import DetailedProductScreen from "../screens/DetailedProductScreen";
-import ViewCartScreen from "../screens/ViewCartScreen";
 import CheckoutScreen from "../screens/CheckoutScreen";
-import ViewCartScreenTW from "../screens/ViewCartScreenTW";
+import ShoppingCartScreen from "../screens/ShoppingCartScreen";
+import OrderSummaryScreen from "../screens/OrderSummaryScreen";
 
 const MainComponent = () => {
   return (
@@ -19,8 +19,9 @@ const MainComponent = () => {
         <Route path="login" element={<LoginScreen />} />
         <Route path="register" element={<RegisterScreen />} />
         <Route path="product/:name" element={<DetailedProductScreen />} />
-        <Route path="cart" element={<ViewCartScreenTW />} />
+        <Route path="cart" element={<ShoppingCartScreen />} />
         <Route path="checkout" element={<CheckoutScreen />} />
+        <Route path="summary" element={<OrderSummaryScreen />} />
       </Routes>
     </div>
   );
