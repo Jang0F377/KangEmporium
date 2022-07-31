@@ -8,6 +8,7 @@ import DetailedProductScreen from "../screens/DetailedProductScreen";
 import CheckoutScreen from "../screens/CheckoutScreen";
 import ShoppingCartScreen from "../screens/ShoppingCartScreen";
 import OrderSummaryScreen from "../screens/OrderSummaryScreen";
+import FooterComponent from "./FooterComponent";
 
 const MainComponent = () => {
   return (

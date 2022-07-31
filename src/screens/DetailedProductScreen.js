@@ -45,7 +45,7 @@ const DetailedProductScreen = () => {
   }
 
   return (
-    <div className="flex flex-col bg-gray-200 font-inter mx-60  pt-6">
+    <div className="flex flex-col bg-gray-200 font-inter lg:mx-60  pt-6">
       {item ? (
         <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:gap-x-8">
           {/* item details */}

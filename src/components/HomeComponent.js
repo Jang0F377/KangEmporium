@@ -1,6 +1,8 @@
 import { Products } from "../data/Products";
 import RenderCardComponent from "./RenderCardComponent";
 import { Link } from "react-router-dom";
+import NewsletterComponent from "./NewsletterComponent";
+import FooterComponent from "./FooterComponent";
 
 const HomeComponent = () => {
   return (
@@ -19,12 +21,14 @@ const HomeComponent = () => {
         <div className="text-center font-poppins text-4xl mb-6 mt-16">
           Have a look at what's on sale today:
         </div>
-        <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-3 lg:gap-x-8 px-2">
+        <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 px-2">
           {Products.filter((product) => product.onSale).map((item) => (
             <RenderCardComponent key={item.name} item={item} />
           ))}
         </div>
       </div>
+      <NewsletterComponent />
+      <FooterComponent />
     </div>
   );
 };

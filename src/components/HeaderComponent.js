@@ -11,7 +11,7 @@ const HeaderComponent = () => {
   const [drawer, setDrawer] = useState(false);
   const [authorizedUser, setAuthorizedUser] = useState(false);
   const cartItems = useSelector(selectCartItems);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const logoutFlow = async () => {
@@ -61,38 +61,66 @@ const HeaderComponent = () => {
 
   return (
     <div>
-      <header className="flex flex-col bg-color-primary mx-72  rounded-b">
-        <div className="flex flex-row justify-end pr-1 font-inter">
-          <div
-            hidden={authorizedUser}
-            className="p-1 hover:text-blue-600 hover:cursor-pointer "
-            onClick={() => navigate("/login")}
-          >
-            Login
+      <header className="bg-color-primary lg:mx-32 2xl:mx-48 rounded-b font-inter">
+        <nav className="mx-auto px-4 sm:px-6 lg:px-8" aria-label="Top">
+          <div className="w-full py-6 flex items-center justify-between border-b border-indigo-500 lg:border-none">
+            <div className="flex ">
+              <a href={"/"} className="flex flex-col text-lg -my-2.5">
+                <div>Koach</div>
+                <div>Kang's</div>
+                <div>Emporium</div>
+              </a>
+              <div className="hidden ml-32 space-x-8 lg:flex  my-auto text-4xl">
+                <Link
+                  to="/"
+                  className="p-2 mx-2 hover:cursor-pointer hover:text-blue-600 hover:scale-125 hover:rotate-6"
+                >
+                  Home
+                </Link>
+                <Link
+                  to="product"
+                  className="p-2 mx-2 hover:text-blue-600 hover:cursor-pointer hover:scale-125 hover:-rotate-6"
+                >
+                  Products
+                </Link>
+                <p
+                  onClick={() => setDrawer(true)}
+                  className="p-2 mx-2 hover:text-blue-600 hover:cursor-pointer hover:scale-125 hover:rotate-6"
+                >
+                  Cart
+                </p>
+              </div>
+            </div>
+            <div className="ml-10 space-x-4 ">
+              {authorizedUser ? (
+                <button
+                  onClick={logoutFlow}
+                  type="button"
+                  className="inline-block bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium text-indigo-600 hover:bg-indigo-50"
+                >
+                  Logout &rarr;
+                </button>
+              ) : (
+                <>
+                  <button
+                    onClick={() => navigate("/login")}
+                    type="button"
+                    className="inline-block bg-indigo-500 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
+                  >
+                    Sign in
+                  </button>
+                  <button
+                    onClick={() => navigate("/register")}
+                    type="button"
+                    className="inline-block bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium text-indigo-600 hover:bg-indigo-50"
+                  >
+                    Sign up
+                  </button>
+                </>
+              )}
+            </div>
           </div>
-          <div hidden={authorizedUser} className="p-1 px-1.5">
-            /
-          </div>
-          <div
-            hidden={!authorizedUser}
-            className="p-1 pr-2 hover:text-blue-600 hover:cursor-pointer "
-            onClick={logoutFlow}
-          >
-            Logout ->
-          </div>
-          <div
-            hidden={authorizedUser}
-            className="p-1 hover:text-blue-600 hover:cursor-pointer "
-            onClick={() => navigate("/register")}
-          >
-            Register
-          </div>
-        </div>
-        <div className="text-center font-playfair text-3xl lg:text-black text-indigo-800 lg:text-5xl md:tracking-wider pb-5 underline decoration-8 underline-offset-8">
-          Koach Kang's Emporium
-        </div>
-        <div className="flex flex-row font-playfair">
-          <div className="flex flex-row flex-1 p-2 justify-around text-2xl lg:text-3xl">
+          <div className="py-4 flex flex-wrap justify-center space-x-6 lg:hidden">
             <Link
               to="/"
               className="p-2 mx-2 hover:cursor-pointer hover:text-blue-600 hover:scale-125 hover:rotate-6"
@@ -112,8 +140,9 @@ const HeaderComponent = () => {
               Cart
             </p>
           </div>
-        </div>
+        </nav>
       </header>
+
       <Transition.Root show={drawer} as={Fragment}>
         <Dialog
           as="div"
@@ -268,3 +297,61 @@ const HeaderComponent = () => {
 };
 
 export default HeaderComponent;
+
+// const HeaderComp2 = () => {
+//   return (
+//     <header className="flex flex-col bg-color-primary mx-72  rounded-b">
+//       <div className="flex flex-row justify-end pr-1 font-inter">
+//         <div
+//           hidden={authorizedUser}
+//           className="p-1 hover:text-blue-600 hover:cursor-pointer "
+//           onClick={() => navigate("/login")}
+//         >
+//           Login
+//         </div>
+//         <div hidden={authorizedUser} className="p-1 px-1.5">
+//           /
+//         </div>
+//         <div
+//           hidden={!authorizedUser}
+//           className="p-1 pr-2 hover:text-blue-600 hover:cursor-pointer "
+//           onClick={logoutFlow}
+//         >
+//           Logout ->
+//         </div>
+//         <div
+//           hidden={authorizedUser}
+//           className="p-1 hover:text-blue-600 hover:cursor-pointer "
+//           onClick={() => navigate("/register")}
+//         >
+//           Register
+//         </div>
+//       </div>
+//       <div className="text-center font-playfair text-3xl lg:text-black text-indigo-800 lg:text-5xl md:tracking-wider pb-5 underline decoration-8 underline-offset-8">
+//         Koach Kang's Emporium
+//       </div>
+//       <div className="flex flex-row font-playfair">
+//         <div className="flex flex-row flex-1 p-2 justify-around text-2xl lg:text-3xl">
+//           <Link
+//             to="/"
+//             className="p-2 mx-2 hover:cursor-pointer hover:text-blue-600 hover:scale-125 hover:rotate-6"
+//           >
+//             Home
+//           </Link>
+//           <Link
+//             to="product"
+//             className="p-2 mx-2 hover:text-blue-600 hover:cursor-pointer hover:scale-125 hover:-rotate-6"
+//           >
+//             Products
+//           </Link>
+//           <p
+//             onClick={() => setDrawer(true)}
+//             className="p-2 mx-2 hover:text-blue-600 hover:cursor-pointer hover:scale-125 hover:rotate-6"
+//           >
+//             Cart
+//           </p>
+//         </div>
+//       </div>
+//     </header>
+//   );
+// };
