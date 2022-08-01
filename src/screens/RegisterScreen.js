@@ -59,7 +59,7 @@ const RegisterScreen = () => {
   };
 
   return (
-    <div className="flex md:pb-20 flex-col bg-gray-200 mx-96 rounded items-center  pt-4">
+    <div className="bg-white mt-10 lg:mt-20 lg:py-4 lg:bg-gray-200 w-11/12 lg:w-9/12 mx-auto rounded ">
       {loading ? (
         <LoadingScreen />
       ) : success ? (
@@ -72,7 +72,7 @@ const RegisterScreen = () => {
               src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
               alt="Workflow"
             />
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            <h2 className="mt-6 text-center text-2xl lg:text-3xl font-extrabold text-gray-900">
               Create your account
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">

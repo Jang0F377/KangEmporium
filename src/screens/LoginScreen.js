@@ -49,7 +49,7 @@ const LoginScreen = () => {
   };
 
   return (
-    <div className="flex flex-col lg:pb-56  bg-gray-200 mx-96 rounded items-center  pt-4">
+    <div className="bg-white mt-10 lg:mt-20 lg:py-16 lg:bg-gray-200 w-11/12 lg:w-9/12 mx-auto rounded ">
       {loading ? (
         <LoadingScreen />
       ) : success ? (
@@ -62,7 +62,7 @@ const LoginScreen = () => {
               src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
               alt="Workflow"
             />
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            <h2 className="mt-6 text-center text-2xl lg:text-3xl font-extrabold text-gray-900">
               Sign in to your account
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
@@ -70,7 +70,7 @@ const LoginScreen = () => {
               <button
                 type={"button"}
                 onClick={() => navigate("/register")}
-                className="font-medium text-indigo-600 hover:text-indigo-500"
+                className="text-sm lg:text-base font-medium text-indigo-600 hover:text-indigo-500"
               >
                 Register here
               </button>

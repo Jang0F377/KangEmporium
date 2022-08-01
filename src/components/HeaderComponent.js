@@ -61,7 +61,7 @@ const HeaderComponent = () => {
 
   return (
     <div>
-      <header className="bg-color-primary lg:mx-32 2xl:mx-48 rounded-b font-inter">
+      <header className="bg-color-primary mx-1.5 lg:mx-20  mx-auto rounded-b font-inter">
         <nav className="mx-auto px-4 sm:px-6 lg:px-8" aria-label="Top">
           <div className="w-full py-6 flex items-center justify-between border-b border-indigo-500 lg:border-none">
             <div className="flex ">
@@ -91,7 +91,7 @@ const HeaderComponent = () => {
                 </p>
               </div>
             </div>
-            <div className="ml-10 space-x-4 ">
+            <div className="lg:ml-10 space-x-4 ">
               {authorizedUser ? (
                 <button
                   onClick={logoutFlow}

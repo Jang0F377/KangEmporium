@@ -130,7 +130,7 @@ const FooterComponent = () => {
               <h3 className="text-lg font-medium text-white">
                 Contact information
               </h3>
-              <p className="mt-6 text-base text-indigo-50 max-w-3xl">
+              <p className="mt-6 text-base text-white max-w-3xl">
                 Koach Kang's Emporium - better items, better prices. Please give
                 us a call or shoot us a message, we'd love to hear from you.
               </p>
@@ -138,9 +138,9 @@ const FooterComponent = () => {
                 <dt>
                   <span className="sr-only">Phone number</span>
                 </dt>
-                <dd className="flex text-base text-indigo-50">
+                <dd className="flex text-base text-white">
                   <PhoneIcon
-                    className="flex-shrink-0 w-6 h-6 text-indigo-200"
+                    className="flex-shrink-0 w-6 h-6 text-white"
                     aria-hidden="true"
                   />
                   <span className="ml-3">+1 (555) 123-4567</span>
@@ -148,9 +148,9 @@ const FooterComponent = () => {
                 <dt>
                   <span className="sr-only">Email</span>
                 </dt>
-                <dd className="flex text-base text-indigo-50">
+                <dd className="flex text-base text-white">
                   <MailIcon
-                    className="flex-shrink-0 w-6 h-6 text-indigo-200"
+                    className="flex-shrink-0 w-6 h-6 text-white"
                     aria-hidden="true"
                   />
                   <span className="ml-3">thisisfake@fakegmail.com</span>

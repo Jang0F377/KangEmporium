@@ -32,7 +32,7 @@ const ShoppingCartScreen = () => {
   };
 
   return (
-    <div className="font-inter mx-auto pt-16 pb-24 px-4 sm:px-6 w-9/12 lg:px-8 bg-white rounded">
+    <div className="font-inter mx-auto pt-16 pb-24 px-4 sm:px-6 w-9/12 lg:px-8 bg-white rounded mt-10 lg:mt-20">
       <h1 className="text-3xl font-inter font-extrabold tracking-tight text-gray-900 md:text-5xl">
         Shopping Cart
       </h1>
@@ -231,7 +231,7 @@ const CartScreenListComp = (props) => {
               {props.product.countInStock ? "In stock" : `Ships in 3-4 weeks`}
             </span>
           </p>
-          <div className="flex flex-col absolute bottom-0 right-1 gap-y-3">
+          <div className="flex flex-col absolute bottom-8 gap-y-1.5 md:bottom-0 right-1 md:gap-y-3">
             <button
               type="button"
               className="text-sm font-medium text-indigo-500 hover:text-indigo-800"

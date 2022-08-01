@@ -45,7 +45,7 @@ const DetailedProductScreen = () => {
   }
 
   return (
-    <div className="flex flex-col bg-gray-200 font-inter lg:mx-60  pt-6">
+    <div className="mx-auto py-10 px-4 sm:py-16 w-11/12 lg:w-9/12 sm:px-6 bg-gray-200 lg:px-8 rounded mt-10 lg:py-16">
       {item ? (
         <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:gap-x-8">
           {/* item details */}
@@ -61,10 +61,8 @@ const DetailedProductScreen = () => {
                 Product information
               </h2>
 
-              <div className="flex items-center">
-                <p className="text-lg text-gray-900 sm:text-xl">
-                  $ {item.price}
-                </p>
+              <div className="flex  items-center">
+                <p className="text-gray-900 sm:text-xl">${item.price}</p>
 
                 <div className="ml-4 pl-4 border-l border-gray-300">
                   <h2 className="sr-only">Reviews</h2>

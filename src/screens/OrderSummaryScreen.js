@@ -28,9 +28,9 @@ const OrderSummaryScreen = () => {
   }, [dispatch, location]);
 
   return (
-    <div className="font-inter mx-auto pt-16 pb-24 px-4 sm:px-6 w-9/12 lg:px-8 bg-white rounded">
-      <main className="relative lg:min-h-full ">
-        <div className="h-80 overflow-hidden lg:absolute lg:w-1/2 lg:h-full lg:pr-4 xl:pr-12 bg-gray-200 ">
+    <div className=" font-inter w-11/12 lg:w-9/12 mx-auto bg-white rounded mt-10 lg:mt-20">
+      <main className="relative lg:min-h-full rounded">
+        <div className="h-80 overflow-hidden lg:absolute lg:w-1/2 lg:h-full lg:pr-4 xl:pr-12 bg-gray-200 rounded">
           <Player
             autoplay
             loop
